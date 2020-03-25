@@ -1,7 +1,8 @@
 ---
 - name: restart docker-compose
   command: "{{ item }}"
-  chdir: "{{ jitsi_meet__install_dir }}"
+  args:
+    chdir: "{{ jitsi_meet__install_dir }}"
   become: true
   loop:
     - docker-compose down
