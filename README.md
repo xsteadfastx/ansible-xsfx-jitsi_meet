@@ -7,5 +7,9 @@ Secure, Simple and Scalable Video Conferences that you use as a standalone app o
 
     ---
     - hosts: all
+      vars:
+        jitsi_meet__host: foo.bar.tld
+        jitsi_meet__letsencrypt_email: foo@bar.tld
       roles:
+        - vwit.docker
         - xsfx.jitsi_meet
