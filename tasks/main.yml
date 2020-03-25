@@ -1,6 +1,6 @@
 ---
 - name: install deps
-  pkg:
+  apt:
     name:
       - git
   become: true
