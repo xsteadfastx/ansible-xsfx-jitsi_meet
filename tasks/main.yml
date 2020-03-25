@@ -1,0 +1,34 @@
+---
+- name: install deps
+  pkg:
+    name:
+      - git
+  become: true
+
+- name: clone jitsi-meet
+  git:
+    repo: "{{ jitsi_meet__repo }}"
+    dest: "{{ jitsi_meet__install_dir }}"
+    version: "{{ jitsi_meet__version }}"
+  become: true
+  notify: restart docker-compose
+
+- name: config dir
+  file:
+    path: "{{ jitsi_meet__config_dir }}/{{ item }}"
+    state: directory
+  become: true
+  loop:
+    - web
+    - letsencrypt
+    - transcripts
+    - prosody
+    - jicofo
+    - jvb
+
+- name: env file
+  template:
+    src: env.j2
+    dest: "{{ jitsi_meet__install_dir }}/.env"
+  become: true
+  notify: restart docker-compose

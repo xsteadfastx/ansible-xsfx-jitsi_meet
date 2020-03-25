@@ -1,0 +1,37 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: molecule/resources/requirements.yml
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: ansible-xsfx-jitsi_meet-debian-buster
+    image: hub.ckc.de/vwit-infrastructure/molecule-testcontainer:debian-buster
+    pre_build_image: true
+    command: ""
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+  - name: ansible-xsfx-jitsi_meet-ubuntu-bionic
+    image: hub.ckc.de/vwit-infrastructure/molecule-testcontainer:ubuntu-bionic
+    pre_build_image: true
+    command: ""
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ../resources/playbooks/playbook.yml
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  directory: ../resources/tests
+  lint:
+    name: flake8

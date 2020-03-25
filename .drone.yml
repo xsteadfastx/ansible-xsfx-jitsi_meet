@@ -1,0 +1,31 @@
+---
+kind: pipeline
+name: testing
+type: exec
+platform:
+  os: linux
+  arch: amd64
+steps:
+  - name: prepare
+    environment:
+      DOCKER_USERNAME:
+        from_secret: docker_username
+      DOCKER_PASSWORD:
+        from_secret: docker_password
+    commands:
+      - >
+        docker login
+        --username=$DOCKER_USERNAME
+        --password=$DOCKER_PASSWORD
+        hub.ckc.de
+      - docker pull hub.ckc.de/vwit-infrastructure/molecule-testcontainer:alpine-3.11
+      - docker pull hub.ckc.de/vwit-infrastructure/molecule-testcontainer:centos-7
+      - docker pull hub.ckc.de/vwit-infrastructure/molecule-testcontainer:debian-buster
+      - docker pull hub.ckc.de/vwit-infrastructure/molecule-testcontainer:ubuntu-bionic
+      - chown -Rv 1000:1000 .
+  - name: testing
+    environment:
+      ANSIBLE_FORCE_COLOR: True
+      PY_COLORS: 1
+    commands:
+      - make local-test
