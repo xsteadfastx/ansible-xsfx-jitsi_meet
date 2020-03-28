@@ -32,3 +32,9 @@
     dest: "{{ jitsi_meet__install_dir }}/.env"
   become: true
   notify: restart docker-compose
+
+- name: start jitsi
+  command: docker-compose up -d
+  args:
+    chdir: "{{ jitsi_meet_install_dir }}"
+  become: true
