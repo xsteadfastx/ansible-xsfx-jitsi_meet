@@ -38,3 +38,12 @@
   args:
     chdir: "{{ jitsi_meet__install_dir }}"
   become: true
+
+- name: stats
+  docker_container:
+    name: jitsiexporter
+    image: quay.io/xsteadfastx/jitsiexporter:latest
+    pull: true
+    networks:
+      - name: jitsi-meet_meet.jitsi
+    command: --url http://jitsi-meet_jvb_1:8080/colibri/stats
