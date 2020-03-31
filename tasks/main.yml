@@ -46,7 +46,7 @@
     pull: true
     recreate: true
     ports:
-      - "0.0.0.0:6700:6700"
+      - "0.0.0.0:9700:9700"
     networks:
       - name: jitsi-meet_meet.jitsi
     command: --url http://jitsi-meet_jvb_1:8080/colibri/stats
