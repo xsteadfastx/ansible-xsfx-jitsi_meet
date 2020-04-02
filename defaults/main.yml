@@ -4,6 +4,6 @@ jitsi_meet__install_dir: /opt/jitsi-meet
 jitsi_meet__letsencrypt_email: null
 jitsi_meet__repo: https://github.com/jitsi/docker-jitsi-meet.git
 jitsi_meet__host: null
-jitsi_meet__version: stable-4101-1
+jitsi_meet__version: stable-4101-2
 jitsi_meet__http_port: 80
 jitsi_meet__https_port: 443
