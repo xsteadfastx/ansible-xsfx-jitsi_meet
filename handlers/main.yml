@@ -1,15 +1,14 @@
 ---
-- name: restart docker-compose
-  command: "{{ item }}"
-  args:
-    chdir: "{{ jitsi_meet__install_dir }}"
-  become: true
-  loop:
-    - docker-compose down
-    - docker-compose up -d
-
 - name: create passwords
   command: "bash gen-passwords.sh"
   args:
     chdir: "{{ jitsi_meet__install_dir }}"
   become: true
+
+- name: restart docker-compose
+  command: "docker-compose up --force-recreate --remove-orphans"
+  args:
+    chdir: "{{ jitsi_meet__install_dir }}"
+  become: true
+  loop:
+    - docker-compose down
