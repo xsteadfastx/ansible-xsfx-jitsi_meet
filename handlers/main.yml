@@ -5,7 +5,19 @@
     image: quay.io/xsteadfastx/jitsiexporter:latest
     state: absent
   become: true
+  notify: remove cfg dirs
+
+- name: remove cfg dirs
+  file:
+    path: "{{ jitsi_meet__config_dir }}/{{ item }}"
+    state: absent
+  become: true
   notify: create passwords
+  loop:
+    - jicofo
+    - jvb
+    - prosody
+    - transcripts
 
 - name: create passwords
   command: "bash gen-passwords.sh"
@@ -15,10 +27,11 @@
   notify: restart docker-compose
 
 - name: restart docker-compose
-  command: "docker-compose up --force-recreate --remove-orphans"
+  command: "docker-compose up -d --force-recreate --remove-orphans"
   args:
     chdir: "{{ jitsi_meet__install_dir }}"
   become: true
+  notify: start exporter
 
 - name: start exporter
   docker_container:
