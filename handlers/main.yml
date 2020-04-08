@@ -7,3 +7,9 @@
   loop:
     - docker-compose down
     - docker-compose up -d
+
+- name: create passwords
+  command: "bash gen-passwords.sh"
+  args:
+    chdir: "{{ jitsi_meet__install_dir }}"
+  become: true
