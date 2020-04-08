@@ -12,8 +12,7 @@
     version: "{{ jitsi_meet__version }}"
   become: true
   notify:
-    - create passwords
-    - restart docker-compose
+    - recreate
 
 - name: config dir
   file:
@@ -34,8 +33,7 @@
     dest: "{{ jitsi_meet__install_dir }}/.env"
   become: true
   notify:
-    - create passwords
-    - restart docker-compose
+    - recreate
 
 - name: start jitsi
   command: docker-compose up -d
