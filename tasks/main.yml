@@ -14,19 +14,6 @@
   notify:
     - recreate
 
-- name: config dir
-  file:
-    path: "{{ jitsi_meet__config_dir }}/{{ item }}"
-    state: directory
-  become: true
-  loop:
-    - web
-    - letsencrypt
-    - transcripts
-    - prosody
-    - jicofo
-    - jvb
-
 - name: env file
   template:
     src: env.j2
@@ -34,21 +21,3 @@
   become: true
   notify:
     - recreate
-
-- name: start jitsi
-  command: docker-compose up -d
-  args:
-    chdir: "{{ jitsi_meet__install_dir }}"
-  become: true
-
-- name: stats
-  docker_container:
-    name: jitsiexporter
-    image: quay.io/xsteadfastx/jitsiexporter:latest
-    pull: true
-    recreate: true
-    ports:
-      - "0.0.0.0:9700:9700"
-    networks:
-      - name: jitsi-meet_meet.jitsi
-    command: --url http://jitsi-meet_jvb_1:8080/colibri/stats
