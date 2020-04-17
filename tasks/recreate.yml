@@ -25,6 +25,12 @@
       chdir: "{{ jitsi_meet__install_dir }}"
     become: true
 
+  - name: pull fresh docker images
+    command: "docker-compose pull"
+    args:
+      chdir: "{{ jitsi_meet__install_dir }}"
+    become: true
+
   - name: restart docker-compose
     command: "docker-compose up -d --force-recreate --remove-orphans"
     args:
