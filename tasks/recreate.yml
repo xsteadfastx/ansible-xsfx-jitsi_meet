@@ -47,4 +47,5 @@
         - "0.0.0.0:9700:9700"
       networks:
         - name: jitsi-meet_meet.jitsi
+      restart_policy: always
       command: --url http://jitsi-meet_jvb_1:8080/colibri/stats
